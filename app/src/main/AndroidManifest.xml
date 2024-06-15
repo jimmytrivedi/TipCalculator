@@ -14,6 +14,7 @@
 
     <!-- .................................APPLICATION TAG <...> ................................. -->
     <application
+        android:name=".global.TipApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -24,7 +25,7 @@
 
         <!-- .................................ACTIVITY................................. -->
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".main.activity.HomeActivity"
             android:exported="true"
             android:theme="@style/Theme.TipCalculator">
             <intent-filter>

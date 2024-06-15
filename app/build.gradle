@@ -65,12 +65,9 @@ android {
     def appCompatVersion = '1.6.1'
     def coreVersion = '1.12.0'
     def fragmentVersion = '1.6.2'
-    def glideVersion = '4.16.0'
     def hiltVersion = '2.51.1'
     def lifecycleVersion = '2.7.0'
     def materialVersion = '1.11.0'
-    def okHttpBomVersion = '4.12.0'
-    def retrofitVersion = '2.9.0'
     def vectorDrawableVersion = '1.1.0'
 
 
@@ -103,20 +100,4 @@ android {
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
-
-
-    /** ------------------------------------ 3rd party SDKs ------------------------------------ **/
-
-    // Glide
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
-    kapt "com.github.bumptech.glide:compiler:$glideVersion"
-
-    // Retrofit + GSON
-    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-
-    // OkHttp
-    implementation platform("com.squareup.okhttp3:okhttp-bom:$okHttpBomVersion")
-    implementation 'com.squareup.okhttp3:okhttp'
-    implementation 'com.squareup.okhttp3:logging-interceptor'
 }

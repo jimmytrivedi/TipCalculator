@@ -6,4 +6,9 @@
     <string name="round_up_tip">Round up tip?</string>
     <string name="tip_amount_without_colon">Tip Amount: </string>
     <string name="tip_amount_with_colon">Tip Amount: %1$s</string>
+    <string name="total_amount_without_colon">Total Amount: </string>
+    <string name="total_amount_with_colon">Total Amount: %1$s</string>
+    <string name="split_amount_without_colon">Split Amount: </string>
+    <string name="split_amount_with_colon">Split Amount: %1$s</string>
+    <string name="split_by">Split by</string>
 </resources>

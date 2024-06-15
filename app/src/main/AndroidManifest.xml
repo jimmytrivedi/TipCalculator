@@ -25,7 +25,7 @@
 
         <!-- .................................ACTIVITY................................. -->
         <activity
-            android:name=".main.activity.HomeActivity"
+            android:name=".main.HomeActivity"
             android:exported="true"
             android:theme="@style/Theme.TipCalculator">
             <intent-filter>

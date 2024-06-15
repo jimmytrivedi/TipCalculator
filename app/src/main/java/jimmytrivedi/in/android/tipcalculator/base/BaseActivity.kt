@@ -1,6 +1,7 @@
 package jimmytrivedi.`in`.android.tipcalculator.base
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
@@ -44,7 +45,9 @@ abstract class BaseActivity: AppCompatActivity() {
 
 
     /** ----------------------------------- public functions ----------------------------------- **/
-
+    fun showLog(message: Any?) {
+        Log.d("Result", message.toString())
+    }
 
     /** ----------------------------------- private functions ----------------------------------- **/
     private val onBackPressedCallback = object : OnBackPressedCallback(true) {

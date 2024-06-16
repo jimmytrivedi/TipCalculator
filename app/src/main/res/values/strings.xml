@@ -11,4 +11,12 @@
     <string name="split_amount_without_colon">Split Amount: </string>
     <string name="split_amount_with_colon">Split Amount: %1$s</string>
     <string name="split_by">Split by</string>
+    <string name="reset">Reset</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="help_me">Help me choose</string>
+    <string name="poor_5">Poor (5%)</string>
+    <string name="average_10">Average (10%)</string>
+    <string name="good_15">Good (15%)</string>
+    <string name="excellent_20">Excellent (20%)</string>
+
 </resources>

@@ -5,4 +5,5 @@
     <color name="md_theme_dark_primaryContainer">#CCCCCC</color>
     <color name="color_white">#FFFFFF</color>
     <color name="color_very_light_gray_shade_four">#CCCCCC</color>
+    <color name="color_black">#000000</color>
 </resources>

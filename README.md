@@ -1,7 +1,7 @@
-### Prerequisite to start working with Zivame-Android project ###
+### Prerequisite to start working with Tip Calculator project ###
 * Please download latest Android Studio from official [site](https://developer.android.com/studio), and must use the latest stable version.
 * Please use Java 19 version. Go to Android Studio - Settings - Build Tools - Gradle - Gradle JDK - 19
-* * Please use Java 19 version. Go to Android Studio - Settings - Other Settings - Gradle JDK - 19.
+* Please use Java 19 version. Go to Android Studio - Settings - Other Settings - Gradle JDK - 19.
 
 ### How to import repo? ###
 
@@ -22,9 +22,7 @@
 * ViewModel
 * Kotlin Flow
 * Hilt
-* Retrofit
 * KTX Extensions
-* Glide
 * Sealed class
 * Material Design
 

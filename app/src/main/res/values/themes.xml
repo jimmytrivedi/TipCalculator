@@ -6,4 +6,5 @@
         <item name="colorOnPrimary" type="color">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer" type="color">@color/md_theme_dark_primaryContainer</item>
     </style>
+
 </resources>

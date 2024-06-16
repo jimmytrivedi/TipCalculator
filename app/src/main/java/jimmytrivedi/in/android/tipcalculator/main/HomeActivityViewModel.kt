@@ -1,9 +1,12 @@
 package jimmytrivedi.`in`.android.tipcalculator.main
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import jimmytrivedi.`in`.android.tipcalculator.R
 import jimmytrivedi.`in`.android.tipcalculator.base.BaseViewModel
 import jimmytrivedi.`in`.android.tipcalculator.data.Tip
+import jimmytrivedi.`in`.android.tipcalculator.global.TipConstant
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -21,6 +24,9 @@ class HomeActivityViewModel @Inject constructor(): BaseViewModel() {
 
     private val _finalTip = MutableSharedFlow <String>()
     val finalTip = _finalTip.asSharedFlow()
+
+    private val _menuItems = MutableSharedFlow<ArrayList<String>>()
+    val menuItems = _menuItems.asSharedFlow()
 
     fun calculateTip(tip: Tip) {
         viewModelScope.launch {
@@ -44,16 +50,31 @@ class HomeActivityViewModel @Inject constructor(): BaseViewModel() {
                 if (roundUp) {
                     mTip = kotlin.math.ceil(mTip)
                 }
-                _finalTip.emit(NumberFormat.getCurrencyInstance(Locale("en", "in")).format(mTip))
+                _finalTip.emit(NumberFormat.getCurrencyInstance(
+                    Locale(TipConstant.Default.ENGLISH_LANGUAGE, TipConstant.Default.LOCALE_INDIA)).format(mTip))
 
                 // Total amount calculation
                 val mAmount = finalTotalAmount - mTip
-                _totalAmount.emit(NumberFormat.getCurrencyInstance(Locale("en", "in")).format(mAmount))
+                _totalAmount.emit(NumberFormat.getCurrencyInstance(
+                    Locale(TipConstant.Default.ENGLISH_LANGUAGE, TipConstant.Default.LOCALE_INDIA)).format(mAmount))
 
                 // Split amount calculation
                 val mSplitAmount = mAmount / splitBy
-                _splitAmount.emit(NumberFormat.getCurrencyInstance(Locale("en", "in")).format(mSplitAmount))
+                _splitAmount.emit(NumberFormat.getCurrencyInstance(
+                    Locale(TipConstant.Default.ENGLISH_LANGUAGE, TipConstant.Default.LOCALE_INDIA)).format(mSplitAmount))
             }
+        }
+    }
+
+    fun getMenuData(context: Context) {
+        // This is for demonstrate purpose, actual data comes from API through repository
+        viewModelScope.launch {
+            val list = arrayListOf<String>()
+            list.add(context.getString(R.string.poor_5))
+            list.add(context.getString(R.string.average_10))
+            list.add(context.getString(R.string.good_15))
+            list.add(context.getString(R.string.excellent_20))
+            _menuItems.emit(list)
         }
     }
 }

@@ -3,16 +3,23 @@ package jimmytrivedi.`in`.android.tipcalculator.main
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.widget.PopupMenu
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import jimmytrivedi.`in`.android.tipcalculator.R
 import jimmytrivedi.`in`.android.tipcalculator.base.BaseActivity
 import jimmytrivedi.`in`.android.tipcalculator.data.Tip
 import jimmytrivedi.`in`.android.tipcalculator.databinding.ActivityHomeBinding
+import jimmytrivedi.`in`.android.tipcalculator.global.TipConstant
+import jimmytrivedi.`in`.android.tipcalculator.global.TipUtils
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
@@ -59,27 +66,43 @@ class HomeActivity : BaseActivity() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+               viewModel.menuItems.collect {
+                   showPopupMenu(binding.helpMe)
+                }
+            }
+        }
     }
 
     override fun getBundleParameters(bundle: Bundle) {}
 
     private fun initViews() {
-        binding.finalAmount.text = getString(R.string.total_amount_without_colon)
-        binding.splitAmount.text = getString(R.string.split_amount_without_colon)
-        binding.finalTip.text = getString(R.string.tip_amount_without_colon)
+       setDefaultView()
     }
 
     private fun setListeners() {
         // Total amount listener
         binding.totalAmount.editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val tip = Tip()
-                tip.totalAmount = s.toString()
-                tip.tipPercent = binding.tipPercent.editText?.text.toString()
-                tip.splitBy = binding.splitBy.editText?.text.toString()
-                tip.roundUp = binding.roundUpToggle.isChecked
+                if (TipUtils.checkValidation(s.toString())) {
+                    setErrorView(binding.totalAmount, false)
 
-                viewModel.calculateTip(tip)
+                    val tip = Tip()
+                    tip.totalAmount = s.toString()
+                    tip.tipPercent = binding.tipPercent.editText?.text.toString()
+                    tip.splitBy = binding.splitBy.editText?.text.toString()
+                    tip.roundUp = binding.roundUpToggle.isChecked
+
+                    viewModel.calculateTip(tip)
+                } else {
+                    setErrorView(binding.totalAmount, true)
+                }
+
+                if (s.toString().isEmpty()) {
+                    setErrorView(binding.totalAmount, false)
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -89,13 +112,24 @@ class HomeActivity : BaseActivity() {
         // Tip percent listener
         binding.tipPercent.editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val tip = Tip()
-                tip.totalAmount = binding.totalAmount.editText?.text.toString()
-                tip.tipPercent = s.toString()
-                tip.splitBy = binding.splitBy.editText?.text.toString()
-                tip.roundUp = binding.roundUpToggle.isChecked
+                if (TipUtils.checkValidation(s.toString())) {
+                    setErrorView(binding.tipPercent, false)
 
-                viewModel.calculateTip(tip)
+                    val tip = Tip()
+                    tip.totalAmount = binding.totalAmount.editText?.text.toString()
+                    tip.tipPercent = s.toString()
+                    tip.splitBy = binding.splitBy.editText?.text.toString()
+                    tip.roundUp = binding.roundUpToggle.isChecked
+
+                    viewModel.calculateTip(tip)
+                } else {
+                    setErrorView(binding.tipPercent, true)
+                }
+
+                if (s.toString().isEmpty()) {
+                    setErrorView(binding.tipPercent, false)
+                    setDefaultView()
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -105,13 +139,23 @@ class HomeActivity : BaseActivity() {
         // Split by listener
         binding.splitBy.editText?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val tip = Tip()
-                tip.totalAmount = binding.totalAmount.editText?.text.toString()
-                tip.tipPercent = binding.tipPercent.editText?.text.toString()
-                tip.splitBy = s.toString()
-                tip.roundUp = binding.roundUpToggle.isChecked
+                if (TipUtils.checkValidation(s.toString())) {
+                    setErrorView(binding.splitBy, false)
 
-                viewModel.calculateTip(tip)
+                    val tip = Tip()
+                    tip.totalAmount = binding.totalAmount.editText?.text.toString()
+                    tip.tipPercent = binding.tipPercent.editText?.text.toString()
+                    tip.splitBy = s.toString()
+                    tip.roundUp = binding.roundUpToggle.isChecked
+
+                    viewModel.calculateTip(tip)
+                } else {
+                    setErrorView(binding.splitBy, true)
+                }
+
+                if (s.toString().isEmpty()) {
+                    setErrorView(binding.splitBy, false)
+                }
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -127,6 +171,76 @@ class HomeActivity : BaseActivity() {
             tip.roundUp = isChecked
 
             viewModel.calculateTip(tip)
+        }
+
+        // Reset Listener
+        binding.reset.setOnClickListener {
+            // Clear text
+            binding.totalAmount.editText?.text?.clear()
+            binding.splitBy.editText?.text?.clear()
+            binding.tipPercent.editText?.text?.clear()
+
+            // Clear focus
+            binding.totalAmount.clearFocus()
+            binding.splitBy.clearFocus()
+            binding.tipPercent.clearFocus()
+
+            // Clear selection
+            binding.roundUpToggle.isChecked = false
+
+            // Resetting text
+            setDefaultView()
+        }
+
+        // Help Me Listener
+        binding.helpMe.setOnClickListener {
+            viewModel.getMenuData(this)
+        }
+    }
+
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(this, view)
+        popupMenu.menuInflater.inflate(R.menu.service_quality, popupMenu.menu)
+
+
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.poor -> {
+                    binding.tipPercent.editText?.setText(TipConstant.TipServiceQuality.POOR_QUALITY_PERCENT)
+                    true
+                }
+                R.id.average -> {
+                    binding.tipPercent.editText?.setText(TipConstant.TipServiceQuality.AVERAGE_QUALITY_PERCENT)
+                    true
+                }
+                R.id.good -> {
+                    binding.tipPercent.editText?.setText(TipConstant.TipServiceQuality.GOOD_QUALITY_PERCENT)
+                    true
+                }
+                R.id.excellent -> {
+                    binding.tipPercent.editText?.setText(TipConstant.TipServiceQuality.EXCELLENT_QUALITY_PERCENT)
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popupMenu.show()
+    }
+
+    private fun setDefaultView() {
+        binding.finalAmount.text = getString(R.string.total_amount_without_colon)
+        binding.splitAmount.text = getString(R.string.split_amount_without_colon)
+        binding.finalTip.text = getString(R.string.tip_amount_without_colon)
+    }
+
+    private fun setErrorView(view: TextInputLayout, isErrorEnabled: Boolean) {
+        if (isErrorEnabled) {
+            view.isErrorEnabled = true
+            view.error = getString(R.string.invalid_input)
+        } else {
+            view.error = null
+            view.isErrorEnabled = false
         }
     }
 }

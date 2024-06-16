@@ -31,13 +31,12 @@ abstract class BaseActivity: AppCompatActivity() {
     /** ----------------------------------- overridden functions ----------------------------------- **/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         intent.extras?.let {
             //If the @arguments is null, then no need to give invocation of below function to child classes
             getBundleParameters(it)
         }
-        init()
         initObservers()
+        init()
     }
 
 
@@ -50,9 +49,4 @@ abstract class BaseActivity: AppCompatActivity() {
     }
 
     /** ----------------------------------- private functions ----------------------------------- **/
-    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-
-        }
-    }
 }

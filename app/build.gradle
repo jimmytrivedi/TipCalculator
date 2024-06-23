@@ -18,6 +18,7 @@ android {
         versionCode = getVersionCode as int
         versionName = getAppVersionName
         vectorDrawables.useSupportLibrary = true
+        flavorDimensions = [getFlavorDimensions]
     }
 
     compileOptions {
@@ -48,10 +49,41 @@ android {
         resources.excludes.add('readme')
     }
 
+    signingConfigs {
+        production {
+            storeFile file (getKeystorePath)
+            storePassword = getKeystorePassword
+            keyAlias = getKeyAlias
+            keyPassword = getKeyPassword
+        }
+    }
+
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            ext.enableStability = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            ext.enableStability = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources true
+        }
+    }
+
+    productFlavors {
+        development {
+            resValue "string", "app_name", getAppNameDevelopment
+
+            signingConfig signingConfigs.production
+        }
+
+        production {
+            resValue "string", "app_name", getAppNameProduction
+
+            signingConfig signingConfigs.production
         }
     }
 }

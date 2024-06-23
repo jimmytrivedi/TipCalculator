@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/poor"
+        android:title="@string/poor_5"/>
+    <item
+        android:id="@+id/average"
+        android:title="@string/average_10"/>
+    <item
+        android:id="@+id/good"
+        android:title="@string/good_15"/>
+    <item
+        android:id="@+id/excellent"
+        android:title="@string/excellent_20"/>
+</menu>

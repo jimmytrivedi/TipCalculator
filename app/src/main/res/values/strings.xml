@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Tip Calculator</string>
+    <string name="calculate_tip">Calculate Tip</string>
+    <string name="bill_amount">Bill Amount</string>
+    <string name="tip_amount">Tip (%)</string>
+    <string name="round_up_tip">Round up tip?</string>
+    <string name="tip_amount_without_colon">Tip Amount: </string>
+    <string name="tip_amount_with_colon">Tip Amount: %1$s</string>
+    <string name="total_amount_without_colon">Total Amount: </string>
+    <string name="total_amount_with_colon">Total Amount: %1$s</string>
+    <string name="split_amount_without_colon">Split Amount: </string>
+    <string name="split_amount_with_colon">Split Amount: %1$s</string>
+    <string name="split_by">Split by</string>
+    <string name="reset">Reset</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="help_me">Help me choose</string>
+    <string name="poor_5">Poor (5%)</string>
+    <string name="average_10">Average (10%)</string>
+    <string name="good_15">Good (15%)</string>
+    <string name="excellent_20">Excellent (20%)</string>
+
+</resources>

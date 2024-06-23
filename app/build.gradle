@@ -1,0 +1,135 @@
+/** -------------------------------------- plugins {...} --------------------------------------- **/
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+}
+
+android {
+    namespace = getPackageName
+    compileSdk = getCompileAndTargetSdkVersion as int
+
+    defaultConfig {
+        applicationId = getPackageName
+        minSdk = getMinSdkVersion as int
+        targetSdk = getCompileAndTargetSdkVersion as int
+        versionCode = getVersionCode as int
+        versionName = getAppVersionName
+        vectorDrawables.useSupportLibrary = true
+        flavorDimensions = [getFlavorDimensions]
+    }
+
+    compileOptions {
+        sourceCompatibility = getJvmTarget
+        targetCompatibility = getJvmTarget
+    }
+
+    kotlinOptions {
+        jvmTarget = getJvmTarget
+    }
+
+    buildFeatures {
+        viewBinding true
+        buildConfig true    // To use custom BuildConfig fields
+    }
+
+    // Allow references to generated code
+    kapt {
+        correctErrorTypes true
+    }
+    lint {
+        abortOnError false
+        disable 'RestrictedApi'
+    }
+
+    packagingOptions {
+        resources.excludes.add('META-INF/*')
+        resources.excludes.add('readme')
+    }
+
+    signingConfigs {
+        production {
+            storeFile file (getKeystorePath)
+            storePassword = getKeystorePassword
+            keyAlias = getKeyAlias
+            keyPassword = getKeyPassword
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            ext.enableStability = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            ext.enableStability = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources true
+        }
+    }
+
+    productFlavors {
+        development {
+            resValue "string", "app_name", getAppNameDevelopment
+
+            signingConfig signingConfigs.production
+        }
+
+        production {
+            resValue "string", "app_name", getAppNameProduction
+
+            signingConfig signingConfigs.production
+        }
+    }
+}
+
+
+/** ------------------------------------ dependencies {...} ------------------------------------ **/
+ dependencies {
+
+    def activityVersion = '1.8.2'
+    def annotationVersion = '1.7.1'
+    def appCompatVersion = '1.6.1'
+    def coreVersion = '1.12.0'
+    def fragmentVersion = '1.6.2'
+    def hiltVersion = '2.51.1'
+    def lifecycleVersion = '2.7.0'
+    def materialVersion = '1.11.0'
+    def vectorDrawableVersion = '1.1.0'
+
+
+    /** --------------------------------------- Android --------------------------------------- **/
+    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation "androidx.annotation:annotation:$annotationVersion"
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+    implementation "androidx.core:core-ktx:$coreVersion"
+
+    implementation "androidx.activity:activity-ktx:$activityVersion"
+    implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+
+    // Vector drawable
+    implementation "androidx.vectordrawable:vectordrawable:$vectorDrawableVersion"
+    implementation "androidx.vectordrawable:vectordrawable-animated:$vectorDrawableVersion"
+
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-process:$lifecycleVersion"
+
+
+
+    /** ---------------------------------------- Google ---------------------------------------- **/
+    implementation "com.google.android.material:material:$materialVersion"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+}

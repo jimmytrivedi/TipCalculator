@@ -1,0 +1,14 @@
+name: TipCalculator
+id: ari:cloud:compass:e0855f33-60c6-435f-81a9-da64c34a26ba:component/f3bc85a1-f26c-463a-89ab-de252edd0ccf/2f59fdd9-fad1-4bb4-82fb-f9051c53f030
+description: This is a Tip Calculator app using MVVM Design pattern.
+configVersion: 1
+typeId: SERVICE
+fields:
+  tier: 4
+links: []
+relationships:
+  DEPENDS_ON: []
+labels:
+  - language:kotlin
+  - source:github
+customFields: null
